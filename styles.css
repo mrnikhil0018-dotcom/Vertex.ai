@@ -9,7 +9,6 @@
   --gold: #f9d17a;
   --purple: #8f5bff;
   --ok: #6cf5ad;
-  --error: #ff9595;
 }
 
 * { box-sizing: border-box; }
@@ -43,13 +42,23 @@ body {
 }
 
 .auth-card {
-  width: min(100%, 520px);
+  width: min(100%, 540px);
   padding: 30px;
   border-radius: 28px;
   background: var(--card);
   border: 1px solid var(--card-border);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(249, 209, 122, 0.15) inset, 0 0 45px rgba(143, 91, 255, 0.25);
-  backdrop-filter: blur(8px);
+}
+
+.top-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.status-pill {
+  border: 1px solid rgba(249, 209, 122, 0.34);
+  background: rgba(249, 209, 122, 0.08);
+  color: #f5d38a;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .icon-wrap { position: relative; width: fit-content; margin-bottom: 14px; }
@@ -65,22 +74,29 @@ body {
   width: 54px;
   height: 54px;
   border-radius: 15px;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  color: #110d04;
-  background: linear-gradient(145deg, #ffe39f, #f9d17a 60%, #ad7b1e);
+  background: radial-gradient(circle at 35% 30%, #fff1c8 6%, #f9d17a 35%, #8f5bff 100%);
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.25), 0 0 25px rgba(249, 209, 122, 0.4);
 }
 
 h1 { margin: 8px 0 6px; font-size: clamp(1.7rem, 4vw, 2rem); text-transform: lowercase; }
-.subtitle { margin: 0 0 18px; color: var(--text-soft); }
+.subtitle { margin: 0 0 16px; color: var(--text-soft); }
 
-.auth-switch {
+.highlights {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 14px;
 }
+.highlights article {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 10px;
+}
+.highlights h3 { margin: 0 0 4px; font-size: 0.88rem; }
+.highlights p { margin: 0; color: #aeb4cb; font-size: 0.82rem; }
+
+.auth-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
 .switch-btn {
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.03);
@@ -105,12 +121,6 @@ input {
   background: linear-gradient(150deg, rgba(3, 3, 4, 0.94), rgba(17, 18, 26, 0.95));
   color: #fff;
 }
-input:focus {
-  outline: none;
-  border-color: rgba(249, 209, 122, 0.75);
-  box-shadow: 0 0 0 3px rgba(249, 209, 122, 0.2);
-}
-
 .hidden { display: none; }
 
 .sign-btn {
@@ -125,19 +135,8 @@ input:focus {
   background: linear-gradient(130deg, #ffe4a8, #f9d17a 45%, #9a69ff);
 }
 
-.divider {
-  margin: 16px 0 10px;
-  text-align: center;
-  color: #a9afc7;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-}
-
-.social-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
+.divider { margin: 16px 0 10px; text-align: center; color: #a9afc7; font-size: 0.75rem; letter-spacing: 0.12em; }
+.social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .social-btn {
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.04);
@@ -146,18 +145,18 @@ input:focus {
   padding: 11px;
   font-weight: 700;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
-.social-btn:hover { border-color: rgba(249, 209, 122, 0.45); }
+.social-btn svg { width: 18px; height: 18px; }
 
-.status {
-  min-height: 1.2em;
-  margin-top: 14px;
-  text-align: center;
-  color: var(--ok);
-  font-weight: 600;
-}
+.status { min-height: 1.2em; margin-top: 14px; text-align: center; color: var(--ok); font-weight: 600; }
 
 @media (max-width: 540px) {
   .auth-card { padding: 22px; border-radius: 22px; }
+  .highlights,
   .social-grid { grid-template-columns: 1fr; }
+  .status-pill { font-size: 0.68rem; }
 }
