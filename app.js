@@ -34,6 +34,14 @@ function setMode(nextMode) {
   }
 }
 
+function saveSession({ name, email }) {
+  localStorage.setItem('vertex_user', JSON.stringify({
+    name: name || '',
+    email,
+    updatedAt: new Date().toISOString(),
+  }));
+}
+
 showPassword?.addEventListener('change', () => {
   if (passwordInput) {
     passwordInput.type = showPassword.checked ? 'text' : 'password';
@@ -64,6 +72,12 @@ if (form && statusBox) {
       return;
     }
 
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      statusBox.textContent = 'Please enter a valid email address.';
+      statusBox.style.color = '#ff9595';
+      return;
+    }
+
     if (mode === 'signup' && !name) {
       statusBox.textContent = 'Please enter your full name.';
       statusBox.style.color = '#ff9595';
@@ -86,10 +100,15 @@ if (form && statusBox) {
     statusBox.style.color = '#f9d17a';
 
     window.setTimeout(() => {
+      saveSession({ name, email });
       statusBox.textContent = mode === 'signup'
-        ? `Account created ✅ Welcome, ${name}.`
-        : 'Login successful ✅ Welcome to vertex.ai.';
+        ? `Account created ✅ Welcome, ${name}. Redirecting...`
+        : 'Login successful ✅ Redirecting...';
       statusBox.style.color = '#6cf5ad';
+
+      window.setTimeout(() => {
+        window.location.href = 'home.html';
+      }, 450);
     }, 700);
   });
 }

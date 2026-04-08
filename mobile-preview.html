@@ -171,6 +171,14 @@
       const password = document.getElementById('password');
       const confirmPassword = document.getElementById('confirmPassword');
 
+      function saveSession(payload) {
+        localStorage.setItem('vertex_user', JSON.stringify({
+          name: payload.name || '',
+          email: payload.email,
+          updatedAt: new Date().toISOString(),
+        }));
+      }
+
       document.getElementById('showPassword').addEventListener('change', (e) => {
         password.type = e.target.checked ? 'text' : 'password';
       });
@@ -205,6 +213,12 @@
           return;
         }
 
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+          status.textContent = 'Valid email daalo.';
+          status.style.color = '#ff9595';
+          return;
+        }
+
         if (mode === 'signup' && !name) {
           status.textContent = 'Name bhi add karo.';
           status.style.color = '#ff9595';
@@ -223,8 +237,13 @@
           return;
         }
 
-        status.textContent = mode === 'signup' ? `Account created ✅ Welcome, ${name}` : 'Login successful ✅';
+        status.textContent = mode === 'signup' ? 'Account created ✅ Redirecting...' : 'Login successful ✅ Redirecting...';
         status.style.color = '#6cf5ad';
+
+        saveSession({ name, email });
+        setTimeout(() => {
+          window.location.href = 'home.html';
+        }, 700);
       });
     </script>
   </body>

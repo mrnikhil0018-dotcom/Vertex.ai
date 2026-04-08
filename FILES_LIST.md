@@ -10,6 +10,7 @@ Agar aapko check karna ho ki files bani hain, to ye list verify karo:
 6. `README.md` - Quick start guide
 7. `MOBILE_PREVIEW.md` - Mobile-only Hindi guide
 8. `preview-login.svg` - Static preview asset
+9. `home.html` - Post-login home page
 
 ## Open order (mobile users)
 1. `mobile-preview.html`

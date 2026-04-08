@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vertex.ai — Home</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg-1: #050506;
+        --bg-2: #0c0d12;
+        --card: rgba(18, 18, 24, 0.94);
+        --border: rgba(255, 255, 255, 0.14);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, Arial, sans-serif;
+        color: #f5f7ff;
+        background:
+          radial-gradient(circle at 15% 10%, rgba(143, 91, 255, 0.35), transparent 30%),
+          radial-gradient(circle at 85% 90%, rgba(36, 212, 255, 0.2), transparent 35%),
+          linear-gradient(150deg, var(--bg-1), var(--bg-2));
+        padding: 24px;
+      }
+      .wrap { max-width: 980px; margin: 0 auto; }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .brand { font-size: 1.4rem; font-weight: 800; text-transform: lowercase; }
+      .logout {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.06);
+        color: #f5f7ff;
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .hero {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+        background: var(--card);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+        margin-bottom: 14px;
+      }
+      .hero h1 { margin: 0 0 8px; }
+      .hero p { margin: 0; color: #b0b8d2; }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+      }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .card h3 { margin: 0 0 6px; }
+      .card p { margin: 0; color: #b4bbd4; font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <div class="brand">vertex.ai</div>
+        <button id="logoutBtn" class="logout" type="button">Logout</button>
+      </header>
+
+      <section class="hero">
+        <h1 id="welcomeText">Welcome</h1>
+        <p>Your premium workspace is ready.</p>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h3>AI Dashboard</h3>
+          <p>Quick access to your latest AI tools and workflows.</p>
+        </article>
+        <article class="card">
+          <h3>Secure Sessions</h3>
+          <p>Account activity and sign-in controls in one place.</p>
+        </article>
+        <article class="card">
+          <h3>Personalization</h3>
+          <p>Customize your vertex.ai environment and preferences.</p>
+        </article>
+      </section>
+    </div>
+
+    <script>
+      const userRaw = localStorage.getItem('vertex_user');
+      const user = userRaw ? JSON.parse(userRaw) : null;
+      const welcome = document.getElementById('welcomeText');
+
+      if (!user || !user.email) {
+        window.location.href = 'index.html';
+      } else {
+        const label = user.name ? `${user.name}` : user.email;
+        welcome.textContent = `Welcome, ${label}`;
+      }
+
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('vertex_user');
+        window.location.href = 'index.html';
+      });
+    </script>
+  </body>
+</html>

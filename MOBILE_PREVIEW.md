@@ -19,3 +19,5 @@ Agar file open nahi ho rahi, ye exact steps follow karo:
 - `styles.css`
 - `app.js`
 - `FILES_LIST.md`
+
+- `home.html`
