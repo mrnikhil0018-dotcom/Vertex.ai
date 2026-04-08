@@ -64,15 +64,6 @@
         border-color: transparent;
         background: linear-gradient(130deg, #ffe4a8, #f9d17a 45%, #9a69ff);
       }
-      .mini-cards { display: grid; gap: 8px; margin: 8px 0; }
-      .mini-cards div {
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.03);
-        padding: 9px;
-        font-size: 12px;
-        color: #c7cee3;
-      }
       label { display: block; margin-top: 12px; font-size: 14px; }
       input {
         width: 100%;
@@ -84,6 +75,10 @@
         padding: 12px;
       }
       .hidden { display: none; }
+      .inline-check { display: flex; align-items: center; gap: 8px; color: #c7cee3; font-size: 12px; margin-top: 8px; }
+      .inline-check input { width: auto; margin: 0; }
+      .form-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
+      .forgot { color: #9fd8ff; text-decoration: none; font-size: 12px; }
       .primary {
         width: 100%;
         margin-top: 16px;
@@ -116,19 +111,20 @@
     <main class="card">
       <div class="row">
         <div class="logo"></div>
-        <span class="pill">Enterprise security</span>
+        <span class="pill">vertex.ai account</span>
       </div>
       <h1>vertex.ai</h1>
-      <p class="subtitle">Premium login and signup.</p>
-
-      <div class="mini-cards">
-        <div>Secure access with modern authentication flow.</div>
-        <div>Login or create account in one place.</div>
-      </div>
+      <p class="subtitle">Welcome back. Continue securely.</p>
 
       <div class="switch">
         <button id="mLogin" class="tab active" type="button">Login</button>
         <button id="mSignup" class="tab" type="button">Sign Up</button>
+      </div>
+
+      <div id="mNameWrap" class="hidden">
+        <label>Full Name
+          <input type="text" id="name" placeholder="Your full name" />
+        </label>
       </div>
 
       <label>Email
@@ -137,10 +133,18 @@
       <label>Password
         <input type="password" id="password" placeholder="••••••••" />
       </label>
+      <label class="inline-check"><input type="checkbox" id="showPassword" /> Show password</label>
+
       <div id="mConfirmWrap" class="hidden">
         <label>Confirm Password
           <input type="password" id="confirmPassword" placeholder="••••••••" />
         </label>
+        <label class="inline-check"><input type="checkbox" id="showConfirmPassword" /> Show confirm password</label>
+      </div>
+
+      <div class="form-row">
+        <label class="inline-check"><input type="checkbox" /> Remember me</label>
+        <a href="#" class="forgot">Forgot password?</a>
       </div>
 
       <button id="submit" class="primary">Login</button>
@@ -162,7 +166,18 @@
       const signupBtn = document.getElementById('mSignup');
       const submitBtn = document.getElementById('submit');
       const confirmWrap = document.getElementById('mConfirmWrap');
+      const nameWrap = document.getElementById('mNameWrap');
       const status = document.getElementById('status');
+      const password = document.getElementById('password');
+      const confirmPassword = document.getElementById('confirmPassword');
+
+      document.getElementById('showPassword').addEventListener('change', (e) => {
+        password.type = e.target.checked ? 'text' : 'password';
+      });
+
+      document.getElementById('showConfirmPassword').addEventListener('change', (e) => {
+        confirmPassword.type = e.target.checked ? 'text' : 'password';
+      });
 
       function setMode(next) {
         mode = next;
@@ -170,6 +185,7 @@
         loginBtn.classList.toggle('active', !isSignup);
         signupBtn.classList.toggle('active', isSignup);
         confirmWrap.classList.toggle('hidden', !isSignup);
+        nameWrap.classList.toggle('hidden', !isSignup);
         submitBtn.textContent = isSignup ? 'Create Account' : 'Login';
         status.textContent = '';
       }
@@ -178,29 +194,36 @@
       signupBtn.addEventListener('click', () => setMode('signup'));
 
       submitBtn.addEventListener('click', function () {
+        const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
+        const pwd = password.value;
+        const cpwd = confirmPassword.value;
 
-        if (!email || !password) {
+        if (!email || !pwd) {
           status.textContent = 'Email aur password daalo.';
           status.style.color = '#ff9595';
           return;
         }
 
-        if (password.length < 8) {
+        if (mode === 'signup' && !name) {
+          status.textContent = 'Name bhi add karo.';
+          status.style.color = '#ff9595';
+          return;
+        }
+
+        if (pwd.length < 8) {
           status.textContent = 'Password minimum 8 characters.';
           status.style.color = '#ff9595';
           return;
         }
 
-        if (mode === 'signup' && password !== confirmPassword) {
+        if (mode === 'signup' && pwd !== cpwd) {
           status.textContent = 'Passwords match nahi kar rahe.';
           status.style.color = '#ff9595';
           return;
         }
 
-        status.textContent = mode === 'signup' ? 'Account created ✅' : 'Login successful ✅';
+        status.textContent = mode === 'signup' ? `Account created ✅ Welcome, ${name}` : 'Login successful ✅';
         status.style.color = '#6cf5ad';
       });
     </script>

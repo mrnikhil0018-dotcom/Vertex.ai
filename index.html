@@ -22,22 +22,11 @@
             <div class="icon-glow"></div>
             <div class="logo"></div>
           </div>
-          <span class="status-pill">Enterprise-grade security</span>
+          <span class="status-pill">vertex.ai account</span>
         </div>
 
         <h1>vertex.ai</h1>
-        <p class="subtitle">Premium login and signup in one place.</p>
-
-        <div class="highlights">
-          <article>
-            <h3>Secure access</h3>
-            <p>Advanced auth flow for modern AI apps.</p>
-          </article>
-          <article>
-            <h3>Fast onboarding</h3>
-            <p>Create account or sign in within seconds.</p>
-          </article>
-        </div>
+        <p class="subtitle">Welcome back. Continue securely.</p>
 
         <div class="auth-switch" role="tablist" aria-label="Authentication mode">
           <button id="loginTab" class="switch-btn active" type="button" role="tab" aria-selected="true">Login</button>
@@ -45,15 +34,27 @@
         </div>
 
         <form id="authForm" novalidate>
+          <div id="nameWrap" class="hidden">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Your full name" />
+          </div>
+
           <label for="email">Email</label>
           <input type="email" id="email" placeholder="you@example.com" required />
 
           <label for="password">Password</label>
           <input type="password" id="password" placeholder="••••••••" minlength="8" required />
+          <label class="inline-check"><input type="checkbox" id="showPassword" /> Show password</label>
 
           <div id="confirmWrap" class="hidden">
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" id="confirmPassword" placeholder="••••••••" minlength="8" />
+            <label class="inline-check"><input type="checkbox" id="showConfirmPassword" /> Show confirm password</label>
+          </div>
+
+          <div class="form-row">
+            <label class="inline-check"><input type="checkbox" id="rememberMe" /> Remember me</label>
+            <a href="#" class="forgot-link">Forgot password?</a>
           </div>
 
           <button type="submit" id="submitBtn" class="sign-btn">Login</button>
