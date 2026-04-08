@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vertex AI — Premium Sign In</title>
+    <title>vertex.ai — Premium Auth</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,25 +16,43 @@
     <div class="bg-layer" aria-hidden="true"></div>
 
     <main class="auth-shell">
-      <section class="auth-card" aria-label="Sign in card">
+      <section class="auth-card" aria-label="vertex.ai authentication card">
         <div class="icon-wrap" aria-hidden="true">
           <div class="icon-glow"></div>
           <div class="logo">VA</div>
         </div>
 
-        <p class="tag">LUXURY ACCESS</p>
-        <h1>Sign in to Vertex AI</h1>
-        <p class="subtitle">Black edition secure login experience.</p>
+        <h1>vertex.ai</h1>
+        <p class="subtitle">Secure premium access.</p>
 
-        <form id="loginForm" novalidate>
+        <div class="auth-switch" role="tablist" aria-label="Authentication mode">
+          <button id="loginTab" class="switch-btn active" type="button" role="tab" aria-selected="true">Login</button>
+          <button id="signupTab" class="switch-btn" type="button" role="tab" aria-selected="false">Sign Up</button>
+        </div>
+
+        <form id="authForm" novalidate>
           <label for="email">Email</label>
           <input type="email" id="email" placeholder="you@example.com" required />
 
           <label for="password">Password</label>
           <input type="password" id="password" placeholder="••••••••" minlength="8" required />
 
-          <button type="submit" class="sign-btn">Sign In</button>
+          <div id="confirmWrap" class="hidden">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="••••••••" minlength="8" />
+          </div>
+
+          <button type="submit" id="submitBtn" class="sign-btn">Login</button>
         </form>
+
+        <div class="divider"><span>OR CONTINUE WITH</span></div>
+
+        <div class="social-grid">
+          <button type="button" class="social-btn">Google</button>
+          <button type="button" class="social-btn">GitHub</button>
+          <button type="button" class="social-btn">Apple</button>
+          <button type="button" class="social-btn">Microsoft</button>
+        </div>
 
         <p id="status" class="status" aria-live="polite"></p>
       </section>
