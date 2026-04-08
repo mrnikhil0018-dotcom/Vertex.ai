@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Premium AI Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-glow" aria-hidden="true"></div>
+
+    <main class="page">
+      <section class="branding">
+        <p class="eyebrow">AI COMPANION</p>
+        <h1>Welcome back to your premium assistant</h1>
+        <p class="subtitle">
+          Voice-first, secure and beautifully designed for a luxurious user
+          experience.
+        </p>
+
+        <ul class="feature-list">
+          <li>✨ Ultra real avatar & voice</li>
+          <li>🔐 End-to-end secure login flow</li>
+          <li>🧠 Personalized AI memory</li>
+        </ul>
+      </section>
+
+      <section class="login-card" aria-label="Login form">
+        <div class="card-header">
+          <div class="logo">AVA</div>
+          <button class="ghost-btn" type="button">Need help?</button>
+        </div>
+
+        <h2>Sign in</h2>
+        <p class="card-subtitle">Continue your conversation instantly.</p>
+
+        <form id="loginForm" novalidate>
+          <label>
+            Email
+            <input type="email" id="email" placeholder="you@example.com" required />
+          </label>
+
+          <label>
+            Password
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              minlength="8"
+              required
+            />
+          </label>
+
+          <div class="row">
+            <label class="remember">
+              <input type="checkbox" /> Remember me
+            </label>
+            <a href="#" class="link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="primary-btn">Sign in securely</button>
+        </form>
+
+        <div class="divider"><span>or</span></div>
+
+        <button class="social-btn" type="button">Continue with Google</button>
+
+        <p class="signup-text">
+          New here? <a href="#" class="link">Create premium account</a>
+        </p>
+
+        <p id="status" class="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
