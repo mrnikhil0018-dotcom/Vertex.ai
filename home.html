@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vertex.ai — Home</title>
+    <title>vertex.ai — Home Chat</title>
     <style>
       :root {
         color-scheme: dark;
@@ -22,90 +22,319 @@
           radial-gradient(circle at 15% 10%, rgba(143, 91, 255, 0.35), transparent 30%),
           radial-gradient(circle at 85% 90%, rgba(36, 212, 255, 0.2), transparent 35%),
           linear-gradient(150deg, var(--bg-1), var(--bg-2));
-        padding: 24px;
       }
-      .wrap { max-width: 980px; margin: 0 auto; }
-      .top {
+
+      .app {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 14px;
+        min-height: 100vh;
+      }
+
+      .main,
+      .side {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: var(--card);
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
+      }
+
+      .main { display: grid; grid-template-rows: auto 1fr auto; min-height: 70vh; }
+      .topbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 12px;
-        margin-bottom: 18px;
+        gap: 10px;
+        padding: 14px;
+        border-bottom: 1px solid var(--border);
       }
-      .brand { font-size: 1.4rem; font-weight: 800; text-transform: lowercase; }
-      .logout {
-        border: 1px solid var(--border);
+      .brand { font-size: 1.25rem; font-weight: 800; text-transform: lowercase; }
+      .welcome { color: #b8c0da; font-size: 0.9rem; }
+
+      .chat-area {
+        padding: 14px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .msg {
+        max-width: min(85%, 620px);
+        border-radius: 14px;
+        padding: 10px 12px;
+        line-height: 1.4;
+      }
+      .msg.user {
+        align-self: flex-end;
+        background: linear-gradient(130deg, #ffe4a8, #f9d17a 45%, #9a69ff);
+        color: #101010;
+        font-weight: 600;
+      }
+      .msg.ai {
+        align-self: flex-start;
         background: rgba(255, 255, 255, 0.06);
-        color: #f5f7ff;
-        padding: 10px 14px;
+        border: 1px solid var(--border);
+      }
+
+      .composer {
+        border-top: 1px solid var(--border);
+        padding: 12px;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px;
+      }
+      .composer input {
+        width: 100%;
         border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.4);
+        color: #fff;
+        padding: 12px;
+      }
+      .btn {
+        border: 0;
+        border-radius: 12px;
+        padding: 0 14px;
         font-weight: 700;
         cursor: pointer;
       }
-      .hero {
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 24px;
-        background: var(--card);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
-        margin-bottom: 14px;
+      .btn.send {
+        color: #111;
+        background: linear-gradient(130deg, #ffe4a8, #f9d17a 45%, #9a69ff);
       }
-      .hero h1 { margin: 0 0 8px; }
-      .hero p { margin: 0; color: #b0b8d2; }
-      .grid {
+      .btn.mic {
+        color: #f5f7ff;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .side {
+        padding: 14px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-rows: auto auto auto 1fr auto;
         gap: 12px;
       }
-      .card {
+      .side h3 { margin: 0; font-size: 1rem; }
+
+      .panel {
         border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 14px;
+        border-radius: 12px;
+        padding: 10px;
         background: rgba(255, 255, 255, 0.03);
       }
-      .card h3 { margin: 0 0 6px; }
-      .card p { margin: 0; color: #b4bbd4; font-size: 0.9rem; }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      select,
+      .switch {
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.35);
+        color: #fff;
+        padding: 8px;
+        font-size: 0.85rem;
+      }
+      .quick {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .quick button {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 0.82rem;
+        cursor: pointer;
+      }
+      .logout {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        border-radius: 12px;
+        padding: 10px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      @media (max-width: 980px) {
+        .app { grid-template-columns: 1fr; }
+      }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <header class="top">
-        <div class="brand">vertex.ai</div>
+    <div class="app">
+      <section class="main">
+        <header class="topbar">
+          <div>
+            <div class="brand">vertex.ai</div>
+            <div id="welcomeText" class="welcome">Welcome</div>
+          </div>
+          <span id="modeBadge" class="switch">Friendly</span>
+        </header>
+
+        <main id="chatArea" class="chat-area">
+          <div class="msg ai">Hi 👋 Main tumhara AI companion hoon. Kya help chahiye aaj?</div>
+        </main>
+
+        <form id="chatForm" class="composer">
+          <input id="chatInput" type="text" placeholder="Type or speak your message..." />
+          <button class="btn mic" type="button" id="micBtn">🎤</button>
+          <button class="btn send" type="submit">Send</button>
+        </form>
+      </section>
+
+      <aside class="side">
+        <h3>Options</h3>
+
+        <div class="panel">
+          <div class="row"><span>Mode</span>
+            <select id="modeSelect">
+              <option value="friendly">Friendly</option>
+              <option value="study">Study</option>
+              <option value="support">Emotional Support</option>
+              <option value="fun">Fun/Roast Lite</option>
+            </select>
+          </div>
+          <div class="row"><span>Language</span>
+            <select id="langSelect">
+              <option value="hinglish">Hinglish</option>
+              <option value="english">English</option>
+              <option value="hindi">Hindi</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="row"><span>Voice Reply</span><input id="voiceToggle" type="checkbox" class="switch" checked /></div>
+          <div class="row"><span>Memory</span><input id="memoryToggle" type="checkbox" class="switch" checked /></div>
+        </div>
+
+        <div class="panel">
+          <div class="quick">
+            <button type="button" data-quick="goal">Set Goal</button>
+            <button type="button" data-quick="habit">Track Habit</button>
+            <button type="button" data-quick="interview">Interview Mode</button>
+            <button type="button" data-quick="mood">Mood Check</button>
+          </div>
+        </div>
+
+        <div></div>
+
         <button id="logoutBtn" class="logout" type="button">Logout</button>
-      </header>
-
-      <section class="hero">
-        <h1 id="welcomeText">Welcome</h1>
-        <p>Your premium workspace is ready.</p>
-      </section>
-
-      <section class="grid">
-        <article class="card">
-          <h3>AI Dashboard</h3>
-          <p>Quick access to your latest AI tools and workflows.</p>
-        </article>
-        <article class="card">
-          <h3>Secure Sessions</h3>
-          <p>Account activity and sign-in controls in one place.</p>
-        </article>
-        <article class="card">
-          <h3>Personalization</h3>
-          <p>Customize your vertex.ai environment and preferences.</p>
-        </article>
-      </section>
+      </aside>
     </div>
 
     <script>
       const userRaw = localStorage.getItem('vertex_user');
       const user = userRaw ? JSON.parse(userRaw) : null;
       const welcome = document.getElementById('welcomeText');
+      const chatArea = document.getElementById('chatArea');
+      const chatForm = document.getElementById('chatForm');
+      const chatInput = document.getElementById('chatInput');
+      const voiceToggle = document.getElementById('voiceToggle');
+      const memoryToggle = document.getElementById('memoryToggle');
+      const modeSelect = document.getElementById('modeSelect');
+      const langSelect = document.getElementById('langSelect');
+      const modeBadge = document.getElementById('modeBadge');
+      const micBtn = document.getElementById('micBtn');
 
       if (!user || !user.email) {
         window.location.href = 'index.html';
       } else {
-        const label = user.name ? `${user.name}` : user.email;
-        welcome.textContent = `Welcome, ${label}`;
+        welcome.textContent = `Welcome, ${user.name || user.email}`;
       }
+
+      const memory = [];
+
+      function pushMessage(role, text) {
+        const div = document.createElement('div');
+        div.className = `msg ${role}`;
+        div.textContent = text;
+        chatArea.appendChild(div);
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      function speak(text) {
+        if (!voiceToggle.checked || !('speechSynthesis' in window)) return;
+        const utter = new SpeechSynthesisUtterance(text);
+        const lang = langSelect.value;
+        utter.lang = lang === 'hindi' ? 'hi-IN' : 'en-US';
+        utter.rate = 1;
+        speechSynthesis.speak(utter);
+      }
+
+      function aiReply(userText) {
+        const mode = modeSelect.value;
+        const lang = langSelect.value;
+        modeBadge.textContent = modeSelect.options[modeSelect.selectedIndex].text;
+
+        let prefix = 'Sure';
+        if (mode === 'study') prefix = 'Let us solve this step by step';
+        if (mode === 'support') prefix = 'I am here with you';
+        if (mode === 'fun') prefix = 'Haha nice one';
+
+        let reply = `${prefix} — ${userText}`;
+        if (lang === 'hindi') reply = `Bilkul, main madad karta hoon: ${userText}`;
+        if (lang === 'hinglish') reply = `Bilkul yaar, chalo karte hain: ${userText}`;
+
+        if (memoryToggle.checked) {
+          memory.push({ u: userText, a: reply, t: Date.now() });
+          if (memory.length > 20) memory.shift();
+        }
+
+        setTimeout(() => {
+          pushMessage('ai', reply);
+          speak(reply);
+        }, 350);
+      }
+
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
+        pushMessage('user', text);
+        chatInput.value = '';
+        aiReply(text);
+      });
+
+      document.querySelectorAll('[data-quick]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const map = {
+            goal: 'Mera goal set karo for this week',
+            habit: 'Daily habit track karna hai',
+            interview: 'Start mock interview for Java',
+            mood: 'Mera mood check karo aaj',
+          };
+          const text = map[btn.dataset.quick];
+          pushMessage('user', text);
+          aiReply(text);
+        });
+      });
+
+      micBtn.addEventListener('click', () => {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          pushMessage('ai', 'Voice recognition is not supported in this browser.');
+          return;
+        }
+
+        const rec = new SR();
+        rec.lang = langSelect.value === 'hindi' ? 'hi-IN' : 'en-IN';
+        rec.onresult = (ev) => {
+          const text = ev.results[0][0].transcript;
+          chatInput.value = text;
+        };
+        rec.start();
+      });
 
       document.getElementById('logoutBtn').addEventListener('click', () => {
         localStorage.removeItem('vertex_user');
