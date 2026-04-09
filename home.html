@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vertex.ai | Home</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg-main: #050507;
+        --bg-elevated: #11131a;
+        --bg-panel: #0d0f14;
+        --text-main: #f4f7ff;
+        --text-soft: #9fa8c5;
+        --border: rgba(255, 255, 255, 0.12);
+        --accent-a: #5be7ff;
+        --accent-b: #8b5bff;
+        --accent-c: #ffd36e;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, Segoe UI, Arial, sans-serif;
+        color: var(--text-main);
+        background:
+          radial-gradient(circle at 10% 5%, rgba(91, 231, 255, 0.15), transparent 34%),
+          radial-gradient(circle at 90% 95%, rgba(139, 91, 255, 0.2), transparent 36%),
+          linear-gradient(160deg, #030305, #090b12 55%, #0d1018);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        border-right: 1px solid var(--border);
+        background: rgba(10, 12, 18, 0.95);
+        backdrop-filter: blur(16px);
+        padding: 14px;
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        gap: 14px;
+      }
+
+      .brand-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .menu-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        display: grid;
+        place-items: center;
+      }
+
+      .menu-btn svg { width: 18px; height: 18px; }
+
+      .brand {
+        font-size: 1.3rem;
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: 0.4px;
+        background: linear-gradient(90deg, var(--accent-a), var(--accent-b), var(--accent-c));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .menu {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--bg-panel);
+        padding: 8px;
+      }
+
+      .menu-title {
+        margin: 6px 8px 10px;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--text-soft);
+      }
+
+      .menu button {
+        width: 100%;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-main);
+        text-align: left;
+        padding: 10px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+
+      .menu button:hover,
+      .menu button.active {
+        background: rgba(139, 91, 255, 0.16);
+        border-color: rgba(139, 91, 255, 0.34);
+      }
+
+      .menu svg {
+        width: 16px;
+        height: 16px;
+        stroke: #dbe3ff;
+        fill: none;
+        stroke-width: 1.9;
+      }
+
+      .sidebar-foot {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .logo-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .logo-pill {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .logo-pill svg { width: 19px; height: 19px; }
+
+      .main {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        min-height: 100vh;
+      }
+
+      .topbar {
+        height: 72px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 22px;
+        background: rgba(8, 10, 16, 0.72);
+      }
+
+      .welcome {
+        font-size: 0.9rem;
+        color: var(--text-soft);
+      }
+
+      .logout {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text-main);
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .chat-shell {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 72px - 86px);
+      }
+
+      .chat-area {
+        padding: 18px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .bubble {
+        max-width: min(80%, 720px);
+        border-radius: 14px;
+        padding: 10px 12px;
+        line-height: 1.45;
+      }
+
+      .bubble.user {
+        align-self: flex-end;
+        background: linear-gradient(130deg, #ffd36e, #8b5bff);
+        color: #151515;
+        font-weight: 600;
+      }
+
+      .bubble.ai {
+        align-self: flex-start;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+      }
+
+      .composer {
+        border-top: 1px solid var(--border);
+        padding: 12px 16px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .icon-btn,
+      .send-btn {
+        height: 46px;
+        min-width: 46px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+
+      .icon-btn {
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .icon-btn svg { width: 18px; height: 18px; stroke: #dbe3ff; fill: none; stroke-width: 1.8; }
+
+      .send-btn {
+        color: #121212;
+        padding: 0 16px;
+        border: 0;
+        background: linear-gradient(120deg, #5be7ff, #8b5bff 54%, #ffd36e);
+        font-weight: 700;
+      }
+
+      .composer input {
+        width: 100%;
+        height: 46px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        color: var(--text-main);
+        padding: 0 12px;
+      }
+
+      .composer input:focus-visible,
+      .logout:focus-visible,
+      .send-btn:focus-visible,
+      .icon-btn:focus-visible,
+      .menu button:focus-visible {
+        outline: 2px solid rgba(91, 231, 255, 0.45);
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 960px) {
+        .layout { grid-template-columns: 1fr; }
+        .sidebar { display: none; }
+        .chat-shell { height: calc(100vh - 72px - 86px); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand-row">
+          <div class="menu-btn" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h1 class="brand">vertex.ai</h1>
+        </div>
+
+        <nav class="menu" aria-label="Main menu">
+          <div class="menu-title">Main Menu</div>
+          <button class="active" type="button" data-menu="avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+            AI Avatar Creation
+          </button>
+          <button type="button" data-menu="voice">
+            <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M8 21h8"/></svg>
+            Voice Mode
+          </button>
+          <button type="button" data-menu="history">
+            <svg viewBox="0 0 24 24"><path d="M4 4v6h6"/><path d="M20 12a8 8 0 1 1-2.3-5.7L16 8"/></svg>
+            Chat History
+          </button>
+          <button type="button" data-menu="settings">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a2 2 0 1 1-4 0v-.1a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a2 2 0 1 1 0-4h.1a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2h.1a1 1 0 0 0 .6-.9V4a2 2 0 1 1 4 0v.1a1 1 0 0 0 .6.9h.1a1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1v.1a1 1 0 0 0 .9.6H20a2 2 0 1 1 0 4h-.1a1 1 0 0 0-.9.6Z"/></svg>
+            Settings
+          </button>
+          <button type="button" data-menu="permissions">
+            <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            Permissions & Privacy
+          </button>
+        </nav>
+
+        <div></div>
+
+        <div class="sidebar-foot">
+          Connected AI Services
+          <div class="logo-row" aria-label="Connected providers">
+            <div class="logo-pill" title="Google">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.8-5.5 3.8-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.2.8 3.9 1.5l2.7-2.6C16.9 3.2 14.7 2.3 12 2.3 6.8 2.3 2.6 6.5 2.6 11.7S6.8 21 12 21c6.9 0 9.1-4.9 9.1-7.4 0-.5-.1-.9-.1-1.3H12z"/>
+              </svg>
+            </div>
+            <div class="logo-pill" title="Apple">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#F5F5F7" d="M16.3 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.6.8-3.3.8-.8 0-1.8-.8-3-.8-1.6 0-3 .9-3.8 2.2-1.6 2.8-.4 6.8 1.2 9 .8 1.1 1.7 2.3 3 2.2 1.2-.1 1.7-.8 3.2-.8s2 .8 3.2.8c1.3 0 2.1-1.1 2.9-2.2.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.4-.9-2.4-3.5ZM14 5.9c.6-.7 1-1.7.9-2.6-.9 0-1.9.6-2.6 1.3-.6.7-1.1 1.7-1 2.6 1 .1 2-.5 2.7-1.3Z"/>
+              </svg>
+            </div>
+            <div class="logo-pill" title="GitHub">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#FFFFFF" d="M12 .7a11.3 11.3 0 0 0-3.6 22c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.8-1.4-1.8-1.2-.8 0-.8 0-.8 1.3.1 2 .9 2 1 .8 1.3 2 1 2.5.7.1-.6.3-1 .6-1.3-2.7-.3-5.5-1.3-5.5-6A4.6 4.6 0 0 1 5.2 7c-.1-.3-.5-1.5.1-3 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.5.2 2.7.1 3a4.6 4.6 0 0 1 1.2 3.2c0 4.7-2.8 5.7-5.5 6 .4.4.7 1 .7 2v3c0 .3.2.7.8.6A11.3 11.3 0 0 0 12 .7Z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="main">
+        <header class="topbar">
+          <div>
+            <div style="font-weight:700;">Home Assistant</div>
+            <div id="welcomeText" class="welcome">Welcome</div>
+          </div>
+          <button id="logoutBtn" class="logout" type="button">Logout</button>
+        </header>
+
+        <div class="chat-shell">
+          <main id="chatArea" class="chat-area" aria-live="polite"></main>
+        </div>
+
+        <form id="chatForm" class="composer">
+          <button id="micBtn" class="icon-btn" type="button" aria-label="Voice input">
+            <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M8 21h8"/></svg>
+          </button>
+          <input id="chatInput" type="text" placeholder="Type your message" autocomplete="off" />
+          <button class="send-btn" type="submit">Send</button>
+        </form>
+      </section>
+    </div>
+
+    <script src="home.js"></script>
+
+  </body>
+</html>

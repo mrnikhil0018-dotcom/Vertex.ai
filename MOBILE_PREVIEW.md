@@ -1,11 +1,23 @@
 # Mobile Preview Guide
 
-Agar aapke paas sirf mobile hai, to preview dekhne ke liye:
+Agar file open nahi ho rahi, ye exact steps follow karo:
 
-1. `mobile-preview.html` file kholo (kisi bhi mobile browser ya HTML viewer app me).
-2. Ye single-file preview hai, isme alag CSS/JS ki zarurat nahi.
-3. Agar aap design mockup dekhna chahte ho, `preview-login.svg` bhi directly open kar sakte ho.
+1. `Vertex.ai` folder kholo.
+2. `FILES_LIST.md` check karo (verify files generated).
+3. `mobile-preview.html` open karo.
+4. Browser select karo (Chrome recommended).
+5. Sign in UI preview chal jayega.
 
-## Files
-- `mobile-preview.html` (recommended for mobile preview)
-- `preview-login.svg` (static visual mockup)
+## Agar file missing ho
+- Repo ko dubara pull/download karo.
+- ZIP extract karke `Vertex.ai` folder open karo.
+
+## Important files
+- `index.html`
+- `mobile-preview.html`
+- `preview.html`
+- `styles.css`
+- `app.js`
+- `FILES_LIST.md`
+
+- `home.html`
